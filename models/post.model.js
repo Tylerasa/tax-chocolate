@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
   caption: {
-    type: String,
-    trim: true
+    body: String,
+    trim: true,
+    date: Date
   },
   image: {
     type: String
@@ -14,10 +15,12 @@ const postSchema = new Schema({
   },
   comments: {
     type: Comment
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 
-
-
-const Post = mongoose.model("Movie", postSchema);
+const Post = mongoose.model("Post", postSchema);
 module.exports = Post;
