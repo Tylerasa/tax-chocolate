@@ -5,7 +5,7 @@ router.route("/").get((req, res) => {
   Post.find()
     .sort({ date: -1 })
     .then((posts) => posts.json(posts))
-    .catch((err) => res.status(400).json("error:" + err));
+    .catch((err) => res.status(400).json("error: " + err));
 });
 
 router.route("/add").post((req, res) => {
@@ -19,3 +19,6 @@ router.route("/add").post((req, res) => {
     .then(() => res.json("Post Added"))
     .catch((err) => res.status(400).json(err));
 });
+
+
+module.exports = router;

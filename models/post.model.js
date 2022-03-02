@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
 const Comment = require("./comment.model");
 const Schema = mongoose.Schema;
-const Co
 const postSchema = new Schema({
   caption: {
     body: String,
-    trim: true,
     date: Date
   },
   image: {
@@ -14,9 +12,7 @@ const postSchema = new Schema({
   likes: {
     type: Number
   },
-  comments: {
-    type: [Comment]
-  },
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   date: {
     type: Date,
     default: Date.now

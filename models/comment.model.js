@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
   content: {
-    type: Schema,
+    type: String,
     required: true,
     trim: true
   },
@@ -12,5 +12,5 @@ const commentSchema = new Schema({
   }
 });
 
-const Comment = mongoose.model("Movie", commentSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 module.exports = Comment;
