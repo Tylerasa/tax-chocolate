@@ -4,7 +4,7 @@ let Post = require("../models/post.model");
 router.route("/").get((req, res) => {
   Post.find()
     .sort({ date: -1 })
-    .then((posts) => posts.json(posts))
+    .then((posts) => res.json(posts))
     .catch((err) => res.status(400).json("error: " + err));
 });
 
