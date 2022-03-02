@@ -1,6 +1,14 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
 let User = require("../models/user.model");
+
+function generateAccessToken(id, username) {
+  return jwt.sign({ id, username }, process.env.TOKEN_SECRET, {
+    expiresIn: "3600s"
+  });
+}
 
 router.route("/").get((req, res) => {
   User.find()
@@ -25,12 +33,12 @@ router.route("/register").post((req, res) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
           newUser.password = hash;
-          newUser.save((err) => {
-            if (err) {
-              res.send(err);
-            } else {
-              res.send({ message: "Successfull" });
-            }
+          newUser.save().then((user) => {
+            const token = generateAccessToken(user.id, user.username);
+            res.json({
+              token,
+              user
+            });
           });
         });
       });
@@ -44,20 +52,17 @@ router.route("/login").post((req, res) => {
   if (!password || !username) {
     return res.status(400).json({ msg: "Please Fill All Fields" });
   }
-  User.findOne({ username }, (err, user) => {
+  User.findOne({ username: username.toLowerCase() }, (err, user) => {
     if (user) {
       bcrypt.compare(password, user.password).then((isMatch) => {
         if (!isMatch)
           return res.status(400).json({ msg: "Invalid Credentials" });
-        (user) => {
-          res.json({
-            user: {
-              username,
-              email
-            }
-          });
-        };
-        res.json({ user: user });
+
+        const token = generateAccessToken(user.id, user.username);
+        res.json({
+          token,
+          user
+        });
       });
     }
   });
