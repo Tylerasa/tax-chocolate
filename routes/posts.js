@@ -3,6 +3,7 @@ const auth = require("../middleware/auth");
 let Comment = require("../models/comment.model");
 let Post = require("../models/post.model");
 
+// get all post
 router.get("/", auth, async (req, res) => {
   try {
     Post.find()
@@ -37,17 +38,42 @@ router.route("/add-comment/:id").post(auth, (req, res) => {
     { _id: id },
     { $push: { comments: newContent } },
     (err, data) => {
-      if (err) console.log("comment error", err);
-      else console.log("comment added", data);
+      if (err) res.status(400).json("error: " + err);
+      else res.status(200).json(data);
     }
   );
-  newContent.save().then(() => res.json("Comment Added"));
+});
+
+// get post
+router.route("/:id").get(auth, (req, res) => {
+  Post.findById(req.params.id, (err, post) => {
+    if (err) res.status(400).json("error: " + err);
+    else res.status(200).json(post);
+  });
+});
+
+// get post comments
+router.route("/comments/:id").get(auth, (req, res) => {
+  Post.findById(req.params.id, (err, post) => {
+    if (err) res.status(400).json("error: " + err);
+    else res.status(200).json(post.comments);
+  });
 });
 
 
-router.route("/comments/:id").get(auth, (req, res)=>{
-    
-})
+
+// router.route("/comments/:id").get(auth, (req, res) => {
+//     Post.findById(req.params.id, (err, post) => {
+//       if (err) res.status(400).json("error: " + err);
+//       else {
+//         var comments = data.comments
+        
+//       }
+//     });
+//   });
+
+
+
 
 
 module.exports = router;
