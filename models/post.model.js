@@ -3,8 +3,7 @@ const Comment = require("./comment.model");
 const Schema = mongoose.Schema;
 const postSchema = new Schema({
   caption: {
-    body: String,
-    date: Date
+    type: String,
   },
   image: {
     type: String

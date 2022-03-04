@@ -17,6 +17,7 @@ router.get("/", auth, async (req, res) => {
 
 router.route("/add").post(auth, (req, res) => {
   const { caption, image } = req.body;
+  console.log("caption", caption);
   const newPost = new Post({
     caption,
     image
@@ -34,6 +35,7 @@ router.route("/add-comment/:id").post(auth, (req, res) => {
     content,
     likes: 0
   });
+  newContent.save().then(() => res.json("Comment Added"));
   Post.findByIdAndUpdate(
     { _id: id },
     { $push: { comments: newContent } },
@@ -60,20 +62,14 @@ router.route("/comments/:id").get(auth, (req, res) => {
   });
 });
 
-
-
 // router.route("/comments/:id").get(auth, (req, res) => {
 //     Post.findById(req.params.id, (err, post) => {
 //       if (err) res.status(400).json("error: " + err);
 //       else {
 //         var comments = data.comments
-        
+
 //       }
 //     });
 //   });
-
-
-
-
 
 module.exports = router;
