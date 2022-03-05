@@ -29,7 +29,6 @@ router.route("/add/:id").post(auth, async (req, res) => {
 
 router.route("/add-comment/:id/:userId").post(auth, async (req, res) => {
   const { id, userId } = req.params;
-  console.log("userid", id);
   const { content } = req.body;
   const user = await User.findById(userId);
 
