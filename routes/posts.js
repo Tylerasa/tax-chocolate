@@ -20,7 +20,6 @@ router.route("/add/:id").post(auth, async (req, res) => {
   const { caption, image } = req.body;
   const { id } = req.params;
   const user = await User.findById(id);
-  console.log("user", user.username);
   const newPost = new Post({
     caption,
     image,
@@ -32,12 +31,15 @@ router.route("/add/:id").post(auth, async (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-router.route("/add-comment/:id").post(auth, (req, res) => {
-  const { id } = req.params;
+router.route("/add-comment/:id/:userId").post(auth, async (req, res) => {
+  const { id, userId } = req.params;
   const { content } = req.body;
+  const user = await User.findById(userId);
+
   const newContent = new Comment({
     content,
-    likes: 0
+    likes: 0,
+    username: user.username
   });
   newContent.save().then(() => res.json("Comment Added"));
   Post.findByIdAndUpdate(

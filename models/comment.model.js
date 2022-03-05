@@ -7,6 +7,9 @@ const commentSchema = new Schema({
     required: true,
     trim: true
   },
+  username: {
+    type: String
+  },
   likes: {
     type: Number
   }
