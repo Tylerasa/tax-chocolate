@@ -2,6 +2,7 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 let Comment = require("../models/comment.model");
 let Post = require("../models/post.model");
+let User = require("../models/user.model");
 
 // get all post
 router.get("/", auth, async (req, res) => {
@@ -15,12 +16,15 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.route("/add").post(auth, (req, res) => {
+router.route("/add/:id").post(auth, async (req, res) => {
   const { caption, image } = req.body;
-  console.log("caption", caption);
+  const { id } = req.params;
+  const user = await User.findById(id);
+  console.log("user", user.username);
   const newPost = new Post({
     caption,
-    image
+    image,
+    username: user.username
   });
   newPost
     .save()

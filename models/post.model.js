@@ -3,7 +3,7 @@ const Comment = require("./comment.model");
 const Schema = mongoose.Schema;
 const postSchema = new Schema({
   caption: {
-    type: String,
+    type: String
   },
   image: {
     type: String
@@ -12,6 +12,9 @@ const postSchema = new Schema({
     type: Number
   },
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+  username: {
+    type: String
+  },
   date: {
     type: Date,
     default: Date.now
