@@ -5,15 +5,11 @@ let Post = require("../models/post.model");
 let User = require("../models/user.model");
 
 // get all post
-router.get("/", auth, async (req, res) => {
-  try {
-    Post.find()
-      .sort({ date: -1 })
-      .then((posts) => res.json(posts))
-      .catch((err) => res.status(400).json("error: " + err));
-  } catch (error) {
-    console.log(err);
-  }
+router.get("/", auth, (req, res) => {
+  Post.find()
+    .sort({ date: -1 })
+    .then((posts) => res.json(posts))
+    .catch((err) => res.status(400).json("error: " + err));
 });
 
 router.route("/add/:id").post(auth, async (req, res) => {
@@ -33,7 +29,7 @@ router.route("/add/:id").post(auth, async (req, res) => {
 
 router.route("/add-comment/:id/:userId").post(auth, async (req, res) => {
   const { id, userId } = req.params;
-  console.log("userid", id)
+  console.log("userid", id);
   const { content } = req.body;
   const user = await User.findById(userId);
 
