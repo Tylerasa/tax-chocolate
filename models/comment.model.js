@@ -10,9 +10,6 @@ const commentSchema = new Schema({
   username: {
     type: String
   },
-  likes: {
-    type: Number
-  }
 });
 
 const Comment = mongoose.model("Comment", commentSchema);
