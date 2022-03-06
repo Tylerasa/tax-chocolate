@@ -64,14 +64,6 @@ router.route("/comments/:id").get(auth, (req, res) => {
   });
 });
 
-// router.route("/comments/:id").get(auth, (req, res) => {
-//     Post.findById(req.params.id, (err, post) => {
-//       if (err) res.status(400).json("error: " + err);
-//       else {
-//         var comments = data.comments
 
-//       }
-//     });
-//   });
 
 module.exports = router;
