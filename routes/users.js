@@ -58,6 +58,7 @@ router.route("/login").post((req, res) => {
           return res.status(400).json({ msg: "Invalid Credentials" });
 
         const token = generateAccessToken(user.id, user.username);
+
         res.json({
           token,
           user
@@ -68,3 +69,7 @@ router.route("/login").post((req, res) => {
 });
 
 module.exports = router;
+
+// var base64Url = token.split(".")[1];
+// var base64 = base64Url.replace("-", "+").replace("_", "/");
+// console.log(Buffer.from(base64, "base64").toString());
